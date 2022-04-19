@@ -1,0 +1,8 @@
+prefix=/home/luis/Navegacion-autonoma-de-vehiculos-TE3002B/Activities/catkin_A2_template/install
+
+Name: puzzlebot_gazebo
+Description: Description of puzzlebot_gazebo
+Version: 0.0.1
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

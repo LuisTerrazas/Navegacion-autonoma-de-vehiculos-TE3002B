@@ -1,0 +1,8 @@
+prefix=/home/luis/Navegacion-autonoma-de-vehiculos-TE3002B/Activities/catkin_A2_template/devel
+
+Name: solution
+Description: Description of solution
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
