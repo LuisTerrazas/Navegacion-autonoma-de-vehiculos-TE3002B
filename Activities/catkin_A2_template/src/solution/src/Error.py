@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 import rospy
 from std_msgs.msg import Float32
 from geometry_msgs.msg import Twist
@@ -21,7 +20,10 @@ class square:
             self.angle = 0.00
 
             self.XTarget = 0.5
-            self.YTarget = 0.0
+            self.YTarget = 0.2
+
+            self.K_V = 0.05
+            self.K_W = 0.05
 
 
             rospy.Subscriber('/wr', Float32, self.wr_callback)
@@ -66,10 +68,6 @@ class square:
                 current_time = rospy.get_time()
                 dt = current_time - last_time
                 last_time = current_time
-                
-
-                msg.linear.x = 0.1
-                msg.angular.z = 0.0
 
 
                 self.angle = self.angle + self.r*((self.wr-self.wl)/self.l)* dt
@@ -83,10 +81,20 @@ class square:
                 odometry.x = self.P_X
                 odometry.y = self.P_Y
 
+                if self.ed > 0.005:
+                    msg.linear.x = self.K_V*self.ed
+                    msg.angular.z =self.K_W*self.etheta
+
+                    self.K_V = self.K_V* self.ed
+                    self.K_W = self.K_W * self.etheta
+
+                elif self.ed < 0.005:
+                    self.stop()
+
                 self.error = str(self.ed)
 
                 print("Error: " + self.error)
-                print("X: "  + str(self.P_X) + "Y: " + str(self.P_Y))
+                print("X: "  + str(self.P_X) + "  Y: " + str(self.P_Y))
 
 
                 self.e_pub.publish(self.error)
